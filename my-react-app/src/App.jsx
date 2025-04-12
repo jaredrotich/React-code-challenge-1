@@ -9,6 +9,18 @@ function App() {
   const [amount, setAmount] = useState("");
   const [searchTerm, setSearchTerm] = useState("")
 
+  //handle adding new expense
+  const handleAddExpense = (e) => {
+    e.preventDefault();
+    if (description && amount) {
+      setExpenses([
+        ...expenses,
+        { description, amount: parseFloat(amount), id: Date.now() },
+      ]);
+      setDescription("");
+      setAmount("");
+    }
+  };
   return (
     <>
       
