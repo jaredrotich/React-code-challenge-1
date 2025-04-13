@@ -1,5 +1,8 @@
 import { useState } from 'react'
 import './App.css'
+import Table from './Table.jsx';
+
+
 
 function App() {
   //state to store expenses

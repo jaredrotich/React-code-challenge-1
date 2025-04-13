@@ -1,4 +1,5 @@
 import { useState } from "react";
+import "./Table.css"
 
 function expenseTable() {
     return (
