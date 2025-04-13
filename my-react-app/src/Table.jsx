@@ -13,8 +13,8 @@ function expenseTable() {
         <tbody>
           {filteredExpenses.length === 0 ? (
             <tr>
-              <td> </td>
-              <td> </td>
+              <td>  </td>
+              <td>  </td>
             </tr>
           ) : (
             filteredExpenses.map((expense) => (
