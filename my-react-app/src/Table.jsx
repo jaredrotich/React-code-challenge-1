@@ -31,4 +31,7 @@ function expenseTable() {
     );
 }
 
+console.log("Filtered Expenses:", filteredExpenses);
+
+
 export default Table;

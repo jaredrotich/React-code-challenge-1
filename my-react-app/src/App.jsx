@@ -1,7 +1,5 @@
 import { useState } from 'react'
 import './App.css'
-import Table from './Table.jsx';
-
 
 
 function App() {
@@ -24,6 +22,12 @@ function App() {
       setAmount("");
     }
   };
+
+
+  //filtered expense
+  const filteredExpenses = expenses.filter((expense) =>
+    expense.description.toLowerCase().includes(searchTerm.toLowerCase())
+  );
 
 
   return (
