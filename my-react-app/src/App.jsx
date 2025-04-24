@@ -3,106 +3,78 @@ import './App.css'
 import Header from "./Header"
 import Tablerow from "./Tablerow"
 
-const products = [
-  {
-    id: 1,
-    category: "fruits",
-    name: "apple",
-    stocked: "true",
-    amount: 150,
-  },
-  {
-    id: 2,
-    category: "fruits",
-    name: "dragonfruit",
-    stocked: "true",
-    amount: 150,
-  },
-  {
-    id: 3,
-    category: "fruits",
-    name: "passionfruit",
-    stocked: "false",
-    amount: 200,
-  },
-  {
-    id: 4,
-    category: "vegetables",
-    name: "spinach",
-    stocked: "true",
-    amount: 200,
-  },
-  {
-    id: 5,
-    category: "vegetables",
-    name: "pumpkin",
-    stocked: "true",
-    amount: 400,
-  },
-  {
-    id: 6,
-    category: "vegetables",
-    name: "peas",
-    stocked: "true",
-    amount: 150,
-  }
-]
+
 
 function App() {
 
   
-    //state to store expenses
-    const [count, setCount] = useState(0)
+    
+    // const [count, setCount] = useState(0)
     const [expenses, setExpenses] = useState([]);
-    const [description, setDescription] = useState("");
-    const [amount, setAmount] = useState("");
+    const [sortBy, setSortBy] = useState(null);
+   const [sortDirection, setSortDirection] = useState("asc");
     const [searchTerm, setSearchTerm] = useState("")
   
-    //handle adding new expense
-    const handleAddProduct = (e) => {
-      e.preventDefault();
-      if (description && amount) {
-        setExpenses([
-          ...expenses,
-          { description, amount: parseFloat(amount), id: Date.now() },
-        ]);
-        setDescription("");
-        setAmount("");
-      }
-    };
+    
+    const filteredExpenses = expenses.filter(
+      (expense) =>
+        expense.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        expense.name?.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+  
+    const getSortedExpenses = () => {
+      const sorted = [...filteredExpenses];
+      if (!sortBy) return sorted;
+  
+      sorted.sort((a, b) => {
+        if (sortBy === "amount") {
+          return sortDirection === "asc"
+            ? a.amount - b.amount
+            : b.amount - a.amount;
+        } else if (sortBy === "date") {
+          return sortDirection === "asc"
+            ? new Date(a.date) - new Date(b.date)
+            : new Date(b.date) - new Date(a.date);
+        } else {
+          return sortDirection === "asc"
+            ? a[sortBy].localeCompare(b[sortBy])
+            : b[sortBy].localeCompare(a[sortBy]);
+        }
+      });
 
+      return sorted;
+   };
+ 
+   const handleSort = (field) => {
+     if (sortBy === field) {
+       setSortDirection((prev) => (prev === "asc" ? "desc" : "asc"));
+     } else {
+       setSortBy(field);
+       setSortDirection("asc");
+     }
+   };
+ 
+   const handleDeleteExpense = (indexToDelete) => {
+     setExpenses((prevExpenses) =>
+       prevExpenses.filter((_, index) => index !== indexToDelete)
+     );
+   };
+ 
   return (
-    <div className="app">
-    <Header />
-    <Tablerow products={products}/>
-    <div className="button">
+    <div className="app-container">
+       <h1>Expense Tracker</h1>
+       <ExpenseForm setExpenses={setExpenses} />
+       <SearchBar searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
+       <ExpenseTable
+         expenses={getSortedExpenses()}
+         onSort={handleSort}
+         onDelete={handleDeleteExpense} 
+       />
+     </div>
+   );
+ }
+  
 
-    <form onSubmit={handleAddProduct}>
-    <input
-      type="text"
-      placeholder="Product name"
-      value={description}
-      onChange={(e) => setname(e.target.value)}
-    />
-    <input
-      type="number"
-      placeholder="Amount"
-      value={amount}
-      onChange={(e) => setAmount(e.target.value)}
-    />
-    <button type="submit">Add Product</button>
-  </form>
-
-
-    </div>
-    
-    <main className="main-content">
-    
-      <productlist products={products} />
-    </main>
-
-  </div>
-  )
-}
+  
 
 export default App
