@@ -1,8 +1,8 @@
 import { useState } from 'react'
 import './App.css'
-import Header from "./Header"
-import Tablerow from "./Tablerow"
-
+import ExpenseForm from "./ExpenseForm";
+ import ExpenseTable from "./ExpenseTable";
+ import SearchBar from "./SearchBar";
 
 
 function App() {
