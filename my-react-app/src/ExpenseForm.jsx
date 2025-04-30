@@ -27,6 +27,7 @@ import { useState } from "react";
  
    return (
      <form onSubmit={handleSubmit}>
+      <div className="app-container">
        <h3>Add Expense</h3>
        <input
          type="text"
@@ -64,6 +65,7 @@ import { useState } from "react";
          onChange={handleChange}
        />
        <button type="submit">Submit</button>
+       </div>
      </form>
    );
  }
